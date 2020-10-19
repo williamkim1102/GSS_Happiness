@@ -7,5 +7,5 @@ The data is the 2017 data
 
 the main_code.rmd is the file that shows all the graphs and relationships found in the analysis
 
-
+Figures are in the appendix
 
