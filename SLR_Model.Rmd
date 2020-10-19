@@ -1,0 +1,107 @@
+---
+title: "SLR_Model"
+author: "Eung Kyu Kim, Dong Kyu Kim, Jiwon Chai"
+date: "October 20, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+ps2_data <- gss 
+
+ps2_data <- ps2_data %>%
+  select(caseid, age, feelings_life, self_rated_health, self_rated_mental_health, 
+         income_family, income_respondent, average_hours_worked, total_children, 
+         total_children) %>%
+  
+  mutate(self_rated_health = case_when(
+    self_rated_health=="Poor" ~ as.numeric(1),
+    self_rated_health=="Fair" ~ as.numeric(2),
+    self_rated_health=="Good" ~ as.numeric(3),
+    self_rated_health=="Very good" ~ as.numeric(4),
+    self_rated_health=="Excellent" ~ as.numeric(5)
+    
+  ))  %>%
+  
+  mutate(self_rated_mental_health = case_when(
+    self_rated_mental_health=="Poor" ~ as.numeric(1),
+    self_rated_mental_health=="Fair" ~ as.numeric(2),
+    self_rated_mental_health=="Good" ~ as.numeric(3),
+    self_rated_mental_health=="Very good" ~ as.numeric(4),
+    self_rated_mental_health=="Excellent" ~ as.numeric(5)
+    
+  )) %>%  
+  
+  mutate(income_family = case_when(
+    income_family=="Less than $25,000" ~ as.numeric(1),
+    income_family=="$25,000 to $49,999" ~ as.numeric(2),
+    income_family=="$50,000 to $74,999" ~ as.numeric(3),
+    income_family=="$75,000 to $99,999" ~ as.numeric(4),
+    income_family=="$100,000 to $ 124,999" ~ as.numeric(5),
+    income_family=="$125,000 and more" ~ as.numeric(6)
+    
+  )) %>%
+  
+  mutate(income_respondent = case_when(
+    income_respondent=="Less than $25,000" ~ as.numeric(1),
+    income_respondent=="$25,000 to $49,999" ~ as.numeric(2),
+    income_respondent=="$50,000 to $74,999" ~ as.numeric(3),
+    income_respondent=="$75,000 to $99,999" ~ as.numeric(4),
+    income_respondent=="$100,000 to $ 124,999" ~ as.numeric(5),
+    income_respondent=="$125,000 and more" ~ as.numeric(6)
+  
+  )) %>%
+  
+  mutate(average_hours_worked = case_when(
+    average_hours_worked=="NA" ~ as.numeric(1),
+    average_hours_worked=="0.1 to 29.9 hours" ~ as.numeric(2),
+    average_hours_worked=="30.0 to 40.0 hours" ~ as.numeric(3),
+    average_hours_worked=="40.1 to 50.0 hours" ~ as.numeric(4),
+    average_hours_worked=="50.1 hours and more" ~ as.numeric(5)
+  ))
+ps2_data_complete <- na.omit(ps2_data)
+
+ps2_data_complete
+
+random_select_rows <- ps2_data_complete[sample(nrow(ps2_data_complete), 1000), ]
+random_select_rows
+```
+
+
+
+### SLR Model (income family)
+```{r}
+SLR_model_incomefamily <- lm(formula = feelings_life ~ income_family, data = random_select_rows)
+summary(SLR_model_incomefamily)
+
+ggplot(data = random_select_rows, ) +
+  aes(x = income_family, y = feelings_life) +
+  geom_point() +
+  theme(text = element_text(size=20)) +
+  ggtitle("Family income vs feelings life") +
+  theme(text = element_text(size = 13)) +
+  labs(y = "feelings life", x= "Family's income") +
+  geom_smooth(method='lm', formula = y~x, se = FALSE)
+```
+
+
+
+
+###income respondent
+```{r}
+SLR_model_income_respondent <- lm(formula = feelings_life ~ income_respondent, data = random_select_rows)
+summary(SLR_model_income_respondent)
+
+ggplot(data = random_select_rows, ) +
+  aes(x = income_respondent, y = feelings_life) +
+  geom_point() +
+  theme(text = element_text(size=20)) +
+  ggtitle("Income vs feelings life") +
+  theme(text = element_text(size = 13)) +
+  labs(y = "feelings life", x= "Individual's income") +
+  geom_smooth(method='lm', formula = y~x, se = FALSE)
+```
+
