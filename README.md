@@ -1,9 +1,6 @@
 # GSS_Happiness
 Authors: 
-Eung Kyu Kim (1003004278)
-Dong Kyu Kim (1003388675)
-Jiwon Chai (1005015396)
-
+Eung Kyu Kim 
 
 Trying to find the relationship between happiness and variables from the respondents in the GSS data
 
