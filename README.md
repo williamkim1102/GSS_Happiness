@@ -1,6 +1,6 @@
 # GSS_Happiness
 Authors: 
-Eung Kyu Kim 
+Eung Kyu Kim (team project with classmates: Dong Kyu Kim and Ji Won Chai)
 
 Trying to find the relationship between happiness and variables from the respondents in the GSS data
 
